@@ -1,0 +1,58 @@
+/* Css */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+  .dashboard-section{
+    background-color: #f8f9fd;
+    min-height: 100vh;
+}
+.name{
+    font-size: 20px;
+    font-weight: 400;
+    color: white;
+}
+.dashboard-section .header {
+    background-color: #3C79A5;
+    padding: 15px 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+.dashboard-section .UserOutlined{
+    background-color: transparent;
+    border: 1px solid white;
+}
+.welcome-text{
+    color: #3C79A5;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.createBlog{
+    display: flex;
+    justify-content: flex-end;
+}
+.createBlog-btn{
+    /* padding-top: 20px ;
+    padding-bottom: 20px; */
+    cursor: pointer;
+    margin-top: 20px;
+    background-color: #0033a0;
+    color: #FFF;
+    border: none;
+}
+.edit-icon{
+    display: flex;
+    justify-content: flex-end;
+}
+.content-preview {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; 
+    -webkit-box-orient: vertical;
+    max-height: 100px;
+  }
+  
