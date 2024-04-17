@@ -4,7 +4,6 @@ const nodeMailer = require("nodemailer");
 require('dotenv').config();
 
 const verifyEmail = async (email,link)=>{
-    console.log(email,link)
 
  try{
     let transporter = nodeMailer.createTransport({
@@ -21,7 +20,7 @@ const verifyEmail = async (email,link)=>{
         text : "Welcome",
         html : `
          <div>
-         <p>Welcome to Referral Application, Please click the below link to verify the email</p>
+         <p>Welcome to Blog Application, Please click the below link to verify the email</p>
          <a href=${link}>Click here to activate your account</a>
          </div>  `
     })

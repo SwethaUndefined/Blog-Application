@@ -1,7 +1,6 @@
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-const User = require('../user');
-const Token = require('../token');
+
 
 
 
