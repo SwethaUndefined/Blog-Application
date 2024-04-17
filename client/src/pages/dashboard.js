@@ -20,6 +20,8 @@ import RichTextEditor from "../components/richTextEditor";
 import { createBlog, getBlogs, updateBlog, deleteBlog } from "../api";
 import BlogInformation from "../components/blogInformation";
 import moment from "moment";
+import { addBlogReducer, updateBlogReducer, deleteBlogReducer, setBlogsReducer } from "../store/blog";
+import { useDispatch, useSelector } from "react-redux";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -29,13 +31,14 @@ const Dashboard = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [editingBlogId, setEditingBlogId] = useState(null);
-  const [blogs, setBlogs] = useState([]);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [blogToDelete, setBlogToDelete] = useState(null);
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [showBlog, setShowBlog] = useState(false);
-  
+  const dispatch = useDispatch();
+  const blogs = useSelector(state => state.blog.blogs);
+
   useEffect(() => {
     fetchBlogs();
   }, []);
@@ -44,7 +47,7 @@ const Dashboard = () => {
     try {
       const response = await getBlogs();
       if (response.success) {
-        setBlogs(response.blogs);
+        dispatch(setBlogsReducer(response.blogs));
       } else {
         console.error("Error fetching blogs:", response.error);
       }
@@ -74,6 +77,7 @@ const Dashboard = () => {
   const handleDelete = async () => {
     try {
       await deleteBlog(blogToDelete._id);
+      dispatch(deleteBlogReducer(blogToDelete._id))
       setDeleteModalVisible(false);
       fetchBlogs();
       message.success("Blog Deleted Successfully");
@@ -91,11 +95,11 @@ const Dashboard = () => {
   const handleCreateBlog = async () => {
     try {
       setModalVisible(true);
-      await createBlog({ title, content, username });
+      const response = await createBlog({ title, content, username });
+      dispatch(addBlogReducer(response.blog));
       setModalVisible(false);
       setTitle("");
       setContent("");
-      fetchBlogs();
       message.success("Blog Created Successfully");
     } catch (error) {
       console.error("Error creating blog post:", error);
@@ -105,13 +109,12 @@ const Dashboard = () => {
   const handleUpdateBlog = async () => {
     try {
       setModalVisible(true);
-      const blogData = { blogId: editingBlogId, title, content };
-      await updateBlog(blogData);
+      await updateBlog({ id: editingBlogId, title, content });
+      dispatch(updateBlogReducer({ id: editingBlogId, title, content }));
       setModalVisible(false);
       setTitle("");
       setContent("");
       setEditingBlogId(null);
-      fetchBlogs();
       message.success("Blog Updated Successfully");
     } catch (error) {
       console.error("Error updating blog post:", error);

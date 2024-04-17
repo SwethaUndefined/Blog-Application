@@ -4,6 +4,7 @@ const nodeMailer = require("nodemailer");
 require('dotenv').config();
 
 const verifyEmail = async (email,link)=>{
+    console.log(email,link)
 
  try{
     let transporter = nodeMailer.createTransport({

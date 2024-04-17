@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { message, Input } from "antd";
 import "./registrationForm.css";
 import { registerUser } from "../api";
+import { useDispatch } from "react-redux"; 
+import {setRegisterForm} from "../store/registerForm";
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +13,7 @@ const RegistrationForm = () => {
     contactNumber: "",
   });
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,7 +34,8 @@ const RegistrationForm = () => {
     try {
       const response = await registerUser(formData);
       if (response.success) {
-        message.success("Vertification mail send please check your Gmail");
+        dispatch(setRegisterForm(formData));
+        message.success("Vertification mail send please check your mail");
         sessionStorage.setItem("isLoggedIn", "true");
         sessionStorage.setItem("username", formData.username);
       }

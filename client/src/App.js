@@ -7,7 +7,6 @@ import EmailConfirmationPage from './components/emailConfirmationPage';
 import ForgotPassword from './components/forgotPassword';
 import ResetPassword from './components/resetPassword';
 
-
 const ProtectedRoute = ({ element }) => {
   const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
   if (!isLoggedIn) {

@@ -3,6 +3,8 @@ import { Button, Input, message } from "antd";
 import "./login.css";
 import { loginCheck } from "../api";
 import { useNavigate } from "react-router-dom";
+import { setLoginForm } from "../store/loginForm";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -10,8 +12,9 @@ const Login = () => {
     password: "",
   });
   const [passwordVisible, setPasswordVisible] = React.useState(false);
-  
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -30,16 +33,18 @@ const Login = () => {
   const handleForgotPassword = () => {
     navigate("/forgot-password");
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await loginCheck(formData);
+      dispatch(setLoginForm(formData.username));
       message.success("Login Successful");
       sessionStorage.setItem("isLoggedIn", "true");
       navigate(`/dashboard?username=${formData.username}`);
     } catch (error) {
-      if (error.response && error.response.status === 401) {
+      if (error.response && error.response.status === 403 && error.response.data.error === "Email not verified. Please verify your email before logging in.") {
+        message.error("Email not verified. Vertification mail send please check your Gmail.");
+      } else if (error.response && error.response.status === 401) {
         message.error("Please enter the correct password.");
       } else if (error.response && error.response.status === 404) {
         message.error("Username not found. Please register to continue.");
@@ -48,6 +53,7 @@ const Login = () => {
       }
     }
   };
+  
 
   return (
     <section className="login-main">
