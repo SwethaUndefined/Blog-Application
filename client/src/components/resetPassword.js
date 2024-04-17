@@ -10,7 +10,6 @@ const ResetPassword = () => {
      const [email,setEmail] = useState("")
     useEffect(() => {
         const storedEmail = localStorage.getItem("resetEmail");
-        console.log(storedEmail,"storedEmail")
         if (storedEmail) {
             setEmail(storedEmail);
         }
@@ -26,7 +25,6 @@ const ResetPassword = () => {
                 window.location.href = "/";
             },3000)
         } catch (error) {
-            console.error("Error updating password:", error);
             message.error("An error occurred while updating password. Please try again later.");
         }
     };

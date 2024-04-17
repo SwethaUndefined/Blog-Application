@@ -49,7 +49,6 @@ module.exports = {
   },  
   register: async (req, res) => {
     const { username, password, email, contactNumber } = req.body;
-    console.log(req.body,"req.body")
     try {
       const existingUser = await User.findOne({ $or: [{ username }, { email }] });
       if (existingUser) {
@@ -75,7 +74,6 @@ module.exports = {
         userId : newUser._id,
         token : crypto.randomBytes(16).toString('hex')
        })
-       console.log(savedUser,token)
        await token.save()
        const link = `http://localhost:3000/confirm/${token.token}`
        await verifyEmail(email,link)
@@ -86,7 +84,6 @@ module.exports = {
   },
    verifyEmailToken : async (req, res) => {
     const { token } = req.params;
-    console.log(token)
     try {
       const tokenRecord = await Token.findOne({ token });
       if (!tokenRecord) {
@@ -94,7 +91,6 @@ module.exports = {
       }
   
       const user = await User.findById(tokenRecord.userId);
-      console.log(user,"user")
       if (!user) {
         return res.status(404).json({ success: false, error: "User not found" });
       }
