@@ -1,9 +1,6 @@
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 
-
-
-
 const sendPasswordResetEmail = async (email, token) => {
   const transporter = nodemailer.createTransport({
     service : "Gmail",
@@ -12,7 +9,7 @@ const sendPasswordResetEmail = async (email, token) => {
         pass: process.env.PASS 
     }  });
 
-    const resetLink = `http://localhost:3000/users/reset-password/${token}`; 
+    const resetLink = `http://localhost:3000/reset-password/${token}`; 
 
     const mailOptions = {
     from: 'ramyaragu407@gmail.com',

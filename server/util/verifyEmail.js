@@ -24,6 +24,7 @@ const verifyEmail = async (email,link)=>{
          <a href=${link}>Click here to activate your account</a>
          </div>  `
     })
+    console.log("Mail successfully sent")
     return info;
  }
  catch (error) {

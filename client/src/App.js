@@ -23,9 +23,9 @@ const App = () => {
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<RegistrationForm />} />
         <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
-        <Route path="/users/confirm/:token" element={<EmailConfirmationPage/>} />
+        <Route path="/confirm/:token" element={<EmailConfirmationPage/>} />
         <Route path="/forgot-password" element = {<ForgotPassword/>}/>
-        <Route path="/users/reset-password/:token" element={<ResetPassword/>} />
+        <Route path="/reset-password/:token" element={<ResetPassword/>} />
       </Routes>
     </Router>
   );

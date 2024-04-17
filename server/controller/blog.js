@@ -1,4 +1,4 @@
-const Blog = require("./model/blogSchema")
+const Blog = require("../model/blogSchema")
 
 module.exports = {
 createBlog: async (req, res) => {
