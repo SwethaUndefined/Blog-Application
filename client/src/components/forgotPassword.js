@@ -17,7 +17,7 @@ const ForgotPassword = () => {
       message.success("Password reset email sent. Please check your email.");
     } catch (error) {
       console.error("Error sending password reset email:", error);
-      message.error("An error occurred. Please try again later.");
+      message.error("Email Id not Found.");
     }
   };
 
