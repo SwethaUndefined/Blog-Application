@@ -168,6 +168,7 @@ const Dashboard = () => {
             sm={12}
             md={8}
             lg={6}
+            type="primary"
           >
             Create Blog
           </Button>

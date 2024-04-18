@@ -6,6 +6,7 @@ import moment from "moment";
 const BlogInformation = ({ blog, visible, onClose }) => {
   return (
     <Modal title={blog.title} open={visible} onCancel={onClose} footer={null}>
+      <Divider/>
       <div
         dangerouslySetInnerHTML={{ __html: blog.content }}
       />

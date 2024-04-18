@@ -1,4 +1,5 @@
 const Blog = require("../model/blogSchema")
+const User = require("../model/user")
 
 module.exports = {
 createBlog: async (req, res) => {
@@ -13,7 +14,6 @@ createBlog: async (req, res) => {
         content,
         username,
       });
-  
       const savedBlog = await newBlog.save();
       res.status(200).json({ success: true, message: 'Blog created successfully', blog: savedBlog });
     } catch (error) {
