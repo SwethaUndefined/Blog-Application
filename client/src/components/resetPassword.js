@@ -17,6 +17,7 @@ const ResetPassword = () => {
     const handleChange = (e)=>{
         setPassword(e.target.value)
     }
+    // update the update after verify the email
     const handleSubmit = async () => {
         try {
             await updatePassword(email, password,token);

@@ -37,12 +37,14 @@ const Dashboard = () => {
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [showBlog, setShowBlog] = useState(false);
   const dispatch = useDispatch();
-  const blogs = useSelector(state => state.blog.blogs);
+  const blogsFromRedux = useSelector(state => state.blog?.blogs);
 
   useEffect(() => {
     fetchBlogs();
   }, []);
 
+
+// Fetch the blogs and put it in redux
   const fetchBlogs = async () => {
     try {
       const response = await getBlogs();
@@ -56,6 +58,7 @@ const Dashboard = () => {
     }
   };
 
+  //Show Modal, when click create or update
   const showModal = (blog) => {
     if (blog) {
       setTitle(blog.title);
@@ -68,12 +71,13 @@ const Dashboard = () => {
     }
     setModalVisible(true);
   };
-
+ // Modal for delete
   const showDeleteModal = (blog) => {
     setBlogToDelete(blog);
     setDeleteModalVisible(true);
   };
 
+  // Delete functionality and dispatch that to redux
   const handleDelete = async () => {
     try {
       await deleteBlog(blogToDelete._id);
@@ -92,6 +96,7 @@ const Dashboard = () => {
     setContent("");
   };
 
+  //Function for create blog
   const handleCreateBlog = async () => {
     try {
       setModalVisible(true);
@@ -105,7 +110,7 @@ const Dashboard = () => {
       console.error("Error creating blog post:", error);
     }
   };
-
+  //Function for update blog
   const handleUpdateBlog = async () => {
     try {
       setModalVisible(true);
@@ -120,7 +125,7 @@ const Dashboard = () => {
       console.error("Error updating blog post:", error);
     }
   };
-
+// Logout Function
   const handleLogout = () => {
     sessionStorage.setItem("isLoggedIn", "false");
     sessionStorage.removeItem("username");
@@ -175,7 +180,7 @@ const Dashboard = () => {
         </Col>
       </Row>
       <Row gutter={[16, 16]} style={{ padding: "10px" }}>
-        {blogs.map((blog) => (
+        {blogsFromRedux.map((blog) => (
           <Col key={blog._id} xs={24} sm={12} md={8} lg={6}>
             <Card title={blog.title} bordered={false}>
               <div

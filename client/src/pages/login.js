@@ -30,9 +30,11 @@ const Login = () => {
     }
   }, []);
 
+  //Forgot Password redirection
   const handleForgotPassword = () => {
     navigate("/forgot-password");
   };
+  //Handle Login submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

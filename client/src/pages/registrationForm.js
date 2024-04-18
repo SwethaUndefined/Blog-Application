@@ -23,6 +23,7 @@ const RegistrationForm = () => {
     });
   };
 
+    //Handle Register submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!/^\d{10,}$/.test(formData.contactNumber)) {
@@ -48,6 +49,7 @@ const RegistrationForm = () => {
     }
   };
 
+  //Already registered go to login page url
   const handleLoginClick = () => {
     window.location.href = "/";
   };

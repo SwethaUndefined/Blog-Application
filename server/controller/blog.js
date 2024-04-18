@@ -2,6 +2,7 @@ const Blog = require("../model/blogSchema")
 const User = require("../model/user")
 
 module.exports = {
+// create Blog
 createBlog: async (req, res) => {
     const { title, content, username } = req.body;
     try {
@@ -20,6 +21,7 @@ createBlog: async (req, res) => {
       res.status(500).json({ success: false, error: 'Internal server error' });
     }
   },
+// Get Blogs
   getBlogs : async (req, res) => {
     try {
       const blogs = await Blog.find();
@@ -28,6 +30,7 @@ createBlog: async (req, res) => {
       res.status(500).json({ success: false, error: 'Internal server error' });
     }
   },
+  //update blog
   updateBlog: async (req, res) => {
     const { id, title, content } = req.body;
     try {
@@ -43,6 +46,7 @@ createBlog: async (req, res) => {
       res.status(500).json({ success: false, error: 'Internal server error' });
     }
   },  
+  //delete blog
   deleteBlog: async (req, res) => {
     const { blogId } = req.params;
     try {

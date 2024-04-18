@@ -9,6 +9,7 @@ const ForgotPassword = () => {
     setEmail(e.target.value);
   };
 
+  // Pass the email to backend for sending the email for pasword reset
   const handleResetPassword = async () => {
     try {
     localStorage.setItem("resetEmail", email);

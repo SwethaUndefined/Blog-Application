@@ -8,6 +8,7 @@ const saltRounds = 10;
 const mongoose = require("mongoose");
 
 module.exports = {
+  // Login functionality with password check and email verification check
   login: async (req, res) => {
     try {
       const { username, password } = req.body;
@@ -47,6 +48,7 @@ module.exports = {
       return res.status(500).json({ success: false, error: "Internal server error" });
     }
   },  
+  // Register functionality with email verification
   register: async (req, res) => {
     const { username, password, email, contactNumber } = req.body;
     try {
@@ -82,6 +84,7 @@ module.exports = {
       res.status(500).json({ success: false, error: "Internal server error" });
     }
   },
+  //Verify Email match with token in db and set to true
    verifyEmailToken : async (req, res) => {
     const { token } = req.params;
     try {
@@ -103,6 +106,7 @@ module.exports = {
       res.status(500).json({ success: false, error: "Internal server error" });
     }
   },
+  // Password reset mail sent
   requestPasswordReset: async (req, res) => {
     const { email } = req.body; 
     try {
@@ -129,7 +133,8 @@ module.exports = {
       console.error('Error requesting password reset:', error);
       res.status(500).json({ success: false, message: 'Internal server error' });
     }
-  },  
+  }, 
+  //update password in db after email is verified 
   updatePassword: async (req, res) => {
     const { email, newPassword,token  } = req.body;
     try {
