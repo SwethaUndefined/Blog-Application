@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  loginForm: []
+  username: ''
 };
 
 export const loginFormSlice = createSlice({
@@ -11,7 +11,7 @@ export const loginFormSlice = createSlice({
     setLoginForm: (state, action) => {
       return {
         ...state,
-        loginForm: action.payload,
+        username: action.payload,
       };
     },
   },

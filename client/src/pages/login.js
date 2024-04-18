@@ -26,7 +26,7 @@ const Login = () => {
     const isLoggedIn = sessionStorage.getItem("isLoggedIn");
     if (isLoggedIn === "true") {
       const username = sessionStorage.getItem("username");
-      navigate(`/dashboard?username=${username}`);
+      navigate(`/`);
     }
   }, []);
 
@@ -42,7 +42,7 @@ const Login = () => {
       dispatch(setLoginForm(formData.username));
       message.success("Login Successful");
       sessionStorage.setItem("isLoggedIn", "true");
-      navigate(`/dashboard?username=${formData.username}`);
+      navigate(`/`);
     } catch (error) {
       if (error.response && error.response.status === 403 && error.response.data.error === "Email not verified. Please verify your email before logging in.") {
         message.error("Email not verified. Vertification mail send please check your Gmail.");

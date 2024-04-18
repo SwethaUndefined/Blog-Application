@@ -23,7 +23,7 @@ const ResetPassword = () => {
             await updatePassword(email, password,token);
             message.success("Password updated successfully");
             setTimeout(()=>{
-                window.location.href = "/";
+                window.location.href = "/login";
             },3000)
         } catch (error) {
             message.error("An error occurred while updating password. Please try again later.");

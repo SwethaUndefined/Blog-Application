@@ -11,7 +11,7 @@ const EmailVerified = () => {
       subTitle="You have successfully verified your email address."
       extra={[
         <Button key="login">
-          <Link to="/">Login</Link>
+          <Link to="/login">Login</Link>
         </Button>
       ]}
     />

@@ -37,7 +37,7 @@ export const createBlog = async (blogData) => {
 
 export const getBlogs = async (username) => {
   try {
-    const res = await instance.get(`/blog/getBlogs?username=${username}`);
+    const res = await instance.get(`/blog/getBlogs`);
     return res.data;
   } catch (error) {
     console.error("GetBlogs::error", error);

@@ -51,7 +51,7 @@ const RegistrationForm = () => {
 
   //Already registered go to login page url
   const handleLoginClick = () => {
-    window.location.href = "/";
+    window.location.href = "/login";
   };
 
   return (

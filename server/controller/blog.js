@@ -21,15 +21,16 @@ createBlog: async (req, res) => {
       res.status(500).json({ success: false, error: 'Internal server error' });
     }
   },
-getBlogs: async (req, res) => {
-  try {
-    const { username } = req.query; 
-    const blogs = await Blog.find({ username: username }); 
-    res.status(200).json({ success: true, blogs });
-  } catch (error) {
-    res.status(500).json({ success: false, error: 'Internal server error' });
-  }
-},
+  //Get blog
+  getBlogs: async (req, res) => {
+    try {
+      const blogs = await Blog.find();
+        res.status(200).json({ success: true, blogs });
+    } catch (error) {
+      res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+  },
+  
   //update blog
   updateBlog: async (req, res) => {
     const { id, title, content } = req.body;

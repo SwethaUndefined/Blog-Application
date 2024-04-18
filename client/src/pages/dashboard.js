@@ -20,13 +20,17 @@ import RichTextEditor from "../components/richTextEditor";
 import { createBlog, getBlogs, updateBlog, deleteBlog } from "../api";
 import BlogInformation from "../components/blogInformation";
 import moment from "moment";
-import { addBlogReducer, updateBlogReducer, deleteBlogReducer, setBlogsReducer } from "../store/blog";
+import {
+  addBlogReducer,
+  updateBlogReducer,
+  deleteBlogReducer,
+  setBlogsReducer,
+} from "../store/blog";
 import { useDispatch, useSelector } from "react-redux";
 
 const Dashboard = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const username = searchParams.get("username");
   const [modalVisible, setModalVisible] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -37,17 +41,19 @@ const Dashboard = () => {
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [showBlog, setShowBlog] = useState(false);
   const dispatch = useDispatch();
-  const blogsFromRedux = useSelector(state => state.blog?.blogs);
-
+  const blogsFromRedux = useSelector((state) => state.blog?.blogs);
+  const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+  const username = useSelector((state) => state.loginForm?.username);
+  console.log(username,"username")  
   useEffect(() => {
     fetchBlogs();
   }, []);
 
-
-// Fetch the blogs and put it in redux
+  // Fetch the blogs and put it in redux
   const fetchBlogs = async () => {
     try {
-      const response = await getBlogs(username);
+      const response = await getBlogs();
+      console.log(response)
       if (response.success) {
         dispatch(setBlogsReducer(response.blogs));
       } else {
@@ -71,7 +77,7 @@ const Dashboard = () => {
     }
     setModalVisible(true);
   };
- // Modal for delete
+  // Modal for delete
   const showDeleteModal = (blog) => {
     setBlogToDelete(blog);
     setDeleteModalVisible(true);
@@ -81,7 +87,7 @@ const Dashboard = () => {
   const handleDelete = async () => {
     try {
       await deleteBlog(blogToDelete._id);
-      dispatch(deleteBlogReducer(blogToDelete._id))
+      dispatch(deleteBlogReducer(blogToDelete._id));
       setDeleteModalVisible(false);
       fetchBlogs();
       message.success("Blog Deleted Successfully");
@@ -98,6 +104,14 @@ const Dashboard = () => {
 
   //Function for create blog
   const handleCreateBlog = async () => {
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+    if (!isLoggedIn) {
+      message.error("Please login to create a blog.");
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 2000); 
+      return;
+    }
     try {
       setModalVisible(true);
       const response = await createBlog({ title, content, username });
@@ -112,8 +126,26 @@ const Dashboard = () => {
   };
   //Function for update blog
   const handleUpdateBlog = async () => {
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+    if (!isLoggedIn) {
+      message.error("Please login to edit a blog.");
+      return;
+    }
     try {
       setModalVisible(true);
+      // Fetch the blog details from Redux state
+      const blogToEdit = blogsFromRedux.find(
+        (blog) => blog._id === editingBlogId
+      );
+      if (!blogToEdit) {
+        message.error("Blog not found.");
+        return;
+      }
+      // Check if the current user is the author of the blog
+      if (blogToEdit.username !== username) {
+        message.error("You are not authorized to edit this blog.");
+        return;
+      }
       await updateBlog({ id: editingBlogId, title, content });
       dispatch(updateBlogReducer({ id: editingBlogId, title, content }));
       setModalVisible(false);
@@ -125,11 +157,11 @@ const Dashboard = () => {
       console.error("Error updating blog post:", error);
     }
   };
-// Logout Function
+  // Logout Function
   const handleLogout = () => {
     sessionStorage.setItem("isLoggedIn", "false");
     sessionStorage.removeItem("username");
-    window.location.href = "/";
+    window.location.href = "/login";
   };
 
   const handleLogoutConfirmation = () => {
@@ -148,15 +180,17 @@ const Dashboard = () => {
     <section className="dashboard-section">
       <Row>
         <Col span={24} className="header">
-          <Space>
-            <Avatar
-              size="large"
-              icon={<UserOutlined />}
-              className="UserOutlined"
-            />
-            <Typography className="name">{username}!</Typography>
-            <Button onClick={handleLogoutConfirmation}>Logout</Button>
-          </Space>
+          {isLoggedIn && (
+            <Space>
+              <Avatar
+                size="large"
+                icon={<UserOutlined />}
+                className="UserOutlined"
+              />
+              <Typography className="name">{username}</Typography>
+              <Button onClick={handleLogoutConfirmation}>Logout</Button>
+            </Space>
+          )}
         </Col>
       </Row>
       <Row style={{ padding: "10px" }}>
