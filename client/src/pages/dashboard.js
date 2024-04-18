@@ -47,7 +47,7 @@ const Dashboard = () => {
 // Fetch the blogs and put it in redux
   const fetchBlogs = async () => {
     try {
-      const response = await getBlogs();
+      const response = await getBlogs(username);
       if (response.success) {
         dispatch(setBlogsReducer(response.blogs));
       } else {
